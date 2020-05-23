@@ -4,28 +4,25 @@
 #include <complex>
 #include <iostream>
 
+#define ll long long
 #define ld long double
 
 ld Li, Lj, Ri, Rj, stepR, stepI;
-int Pow;
+ll Pow;
 
 void MakeImage()
 {
-    const int MW = (Ri - Li) * stepR, MH = (Rj - Lj) * stepI;
+    const ll MW = (Ri - Li) * stepR, MH = (Rj - Lj) * stepI;
 
-    unsigned char Map[MW][MH];
-    ld IncI = (ld)1.0 / stepR, IncJ = (ld)1.0 / stepI;
-    std::complex<ld> c, z;
+    ld IncI = (ld)1.0 / stepR,
+       IncJ = (ld)1.0 / stepI;
+    QImage img(MW, MH, QImage::Format_RGB32);
 
     for(ld i = Li; i < Ri; i += IncI)
     {
         for(ld j = Lj; j < Rj; j += IncJ)
         {
-            c.real(i);
-            c.imag(j);
-
-            z.real(0.0);
-            z.imag(0.0);
+            std::complex<ld> c(i, j), z(0, 0);
 
             unsigned char it = 0;
             for(it = 0; it < 255; it++)
@@ -35,23 +32,16 @@ void MakeImage()
                 if (z.real() * z.real() + z.imag() * z.imag() > 4) break;
             }
 
-            int x = abs(Li) * stepR + i * stepR,
-                y = abs(Lj) * stepI + j * stepI;
+            ll x = abs(Li) * stepR + i * stepR,
+               y = abs(Lj) * stepI + j * stepI;
 
-            Map[x][y] = it;
+            img.setPixel(x, y, qRgb(it, it, it));
         }
     }
 
-    QImage img(MW, MH, QImage::Format_RGB32);
-    for(int i = 0; i < MW; i++)
-    {
-        for(int j = 0; j < MH; j++)
-        {
-            img.setPixel(i, j, qRgb(Map[i][j], Map[i][j], Map[i][j]));
-        }
-    }
     img.save("MandelbrotSet.png", "PNG");
 }
+
 
 int main()
 {
