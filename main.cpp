@@ -62,6 +62,4 @@ int main()
     std::cin >> Pow;
 
     MakeImage();
-
-    std::cout << "\nReady!\a\n" << std::endl;
 }
