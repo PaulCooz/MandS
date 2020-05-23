@@ -1,2 +1,2 @@
 # MandS
-simple c++qt program
+Simple c++qt program; outputs part of the set
