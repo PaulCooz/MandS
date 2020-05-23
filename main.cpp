@@ -1,5 +1,3 @@
-#pragma GCC optimize("-Ofast")
-
 #include "qimage.h"
 #include <complex>
 #include <iostream>
