@@ -1,6 +1,6 @@
-//#pragma GCC optimize("-Ofast")
+#pragma GCC optimize("-Ofast")
 
-#include <QImage>
+#include "qimage.h"
 #include <complex>
 #include <iostream>
 
