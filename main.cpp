@@ -14,9 +14,9 @@ void MakeImage()
 {
     const ll MW = (Ri - Li) * stepR, MH = (Rj - Lj) * stepI;
 
+    QImage img(MW, MH, QImage::Format_RGB32);
     ld IncI = (ld)1.0 / stepR,
        IncJ = (ld)1.0 / stepI;
-    QImage img(MW, MH, QImage::Format_RGB32);
 
     for(ld i = Li; i < Ri; i += IncI)
     {
