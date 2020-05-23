@@ -5,35 +5,41 @@
 #define ll long long
 #define ld long double
 
-ld Li, Lj, Ri, Rj, stepR, stepI;
+using namespace std;
+
+ld Lr, Li, Rr, Ri, steps;
 ll Pow;
 
 void MakeImage()
 {
-    const ll MW = (Ri - Li) * stepR, MH = (Rj - Lj) * stepI;
-
+    const int MW = (Rr - Lr) * steps + 2,
+              MH = (Ri - Li) * steps + 2;
     QImage img(MW, MH, QImage::Format_RGB32);
-    ld IncI = (ld)1.0 / stepR,
-       IncJ = (ld)1.0 / stepI;
-
-    for(ld i = Li; i < Ri; i += IncI)
+    
+    ld IncR = 0.8 / steps,
+       IncI = 0.8 / steps;
+    for(ld r = Lr; r < Rr; r += IncR)
     {
-        for(ld j = Lj; j < Rj; j += IncJ)
+        for(ld i = Li; i < Ri; i += IncI)
         {
-            std::complex<ld> c(i, j), z(0, 0);
+            complex<ld> c(r, i), z(0, 0);
 
-            unsigned char it = 0;
-            for(it = 0; it < 255; it++)
+            int cr = 0, cg = 0, cb = 0;
+            for(int it = 0; it < 255; it++)
             {
+                if (it % 3 == 0) cr = it;
+                else if (it % 3 == 1) cg = it;
+                else if (it % 3 == 2) cb = it;
+
                 z = pow(z, Pow) + c;
 
-                if (z.real() * z.real() + z.imag() * z.imag() > 4) break;
+                if (abs(z) > 2) break;
             }
 
-            ll x = abs(Li) * stepR + i * stepR,
-               y = abs(Lj) * stepI + j * stepI;
+            ll x = abs(Lr) * steps + r * steps,
+               y = abs(Li) * steps + i * steps;
 
-            img.setPixel(x, y, qRgb(it, it, it));
+            img.setPixel(x, y, qRgb(4*cr, 4*cg, 4*cb));
         }
     }
 
@@ -43,23 +49,20 @@ void MakeImage()
 
 int main()
 {
-    std::cout << "Input min real" << std::endl;
-    std::cin >> Li;
-    std::cout << "Input max real" << std::endl;
-    std::cin >> Ri;
+    cout << "Input min real" << endl;
+    cin >> Lr;
+    cout << "Input max real" << endl;
+    cin >> Rr;
 
-    std::cout << "Input min imag" << std::endl;
-    std::cin >> Lj;
-    std::cout << "Input max imag" << std::endl;
-    std::cin >> Rj;
+    cout << "Input min imag" << endl;
+    cin >> Li;
+    cout << "Input max imag" << endl;
+    cin >> Ri;
 
-    std::cout << "Input min step R^-1" << std::endl;
-    std::cin >> stepR;
-    std::cout << "Input min step I^-1" << std::endl;
-    std::cin >> stepI;
+    steps = 500.0 / max((Rr - Lr), (Ri - Li));
 
-    std::cout << "Input power" << std::endl;
-    std::cin >> Pow;
+    cout << "Input power" << endl;
+    cin >> Pow;
 
     MakeImage();
 }
